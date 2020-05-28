@@ -14,5 +14,12 @@
         <input type="text" name="nom">
         <input type="button" value="envoyer">
     </form>
+    <ul>
+        {% for tache in Todolist %}
+            <li>
+                {{ tache.nom }}
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

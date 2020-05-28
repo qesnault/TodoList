@@ -4,7 +4,8 @@ from .models import Tache
 
 # Create your views here.
 def todoListe(request):
-    return render(request, 'todoApp/Todolist.html')
+    context = {'Todolist' : Tache.objects.all() }
+    return render(request, 'todoApp/Todolist.html', context)
 
 def insertion(request:HttpRequest):
     tache = Tache(nom = request.POST['nom'])
