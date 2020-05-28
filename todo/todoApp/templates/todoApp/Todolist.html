@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todolist</title>
+</head>
+<body>
+    <h1>
+        TODO
+    </h1>
+    <form action="{% url 'insertion_path' %}" method="post" autocomplete="off">
+        {% csrf_token %}
+        <input type="text" name="nom">
+        <input type="button" value="envoyer">
+    </form>
+</body>
+</html>
