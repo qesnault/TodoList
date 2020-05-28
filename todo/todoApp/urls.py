@@ -5,5 +5,6 @@ from . import views
 urlpatterns = [
     path('', views.todoListe, name='index_path'),
     path('insertion', views.insertion, name='insertion_path'),
-    path('suppression/<int:idTache>', views.suppression, name='suppression_path')
+    path('suppression/<int:idTache>', views.suppression, name='suppression_path'),
+    path('realise/<int:idTache>', views.realisation, name='realise_path'),
 ]

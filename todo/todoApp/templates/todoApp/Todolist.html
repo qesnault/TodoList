@@ -4,23 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todolist</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 </head>
 <body>
     <h1>
-        TODO
+        Mes tâches
     </h1>
     <!-- Insertion de taches -->
     <form action="{% url 'insertion_path' %}" method="post" autocomplete="off">
         {% csrf_token %}
         <input type="text" name="nom">
-        <input type="button" value="envoyer">
+        <button type="submit">
+            Envoyer
+        </button>
     </form>
     <ul>
         <!-- Début de la liste des taches -->
         {% for tache in Todolist %}
             <li>
-                {{ tache.nom }}
-                <form action="{% url 'suppression_path' tache.id %}" method="post">
+                {% if tache.realise %}
+                    <strike> {{ tache.nom }} </strike>
+                {% else %}
+                    {{ tache.nom }}
+                {% endif %}
+
+                
+                    <form action="{% url 'realise_path' tache.id %}" method="POST">
+                        {% csrf_token %}
+                        <!-- Si la tache a été réalise alors on coche la checkbox -->
+                        <input type="radio" name="realise" {% if tache.realise %} checked {% endif %} >
+                    </form>
+                    
+                <form action="{% url 'suppression_path' tache.id %}" name="suppr">
                     {% csrf_token %}
                     <button type="submit">
                         Supprimer
@@ -29,10 +44,20 @@
             </li>
         {% empty %}
             <li>
-                <p>Youpi ! Rien à faire</p>
+                <p>Aucune tache</p>
             </li>
         {% endfor %}
         <!-- Fin de la liste des taches -->
     </ul>
+    
+    <script type='text/javascript'>
+
+        $(document).ready(function() { 
+          $('input[name=realise]').change(function(){
+            $(this).closest("form").submit();
+          });
+         });
+       
+       </script>
 </body>
 </html>
