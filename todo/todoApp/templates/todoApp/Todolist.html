@@ -9,17 +9,30 @@
     <h1>
         TODO
     </h1>
+    <!-- Insertion de taches -->
     <form action="{% url 'insertion_path' %}" method="post" autocomplete="off">
         {% csrf_token %}
         <input type="text" name="nom">
         <input type="button" value="envoyer">
     </form>
     <ul>
+        <!-- Début de la liste des taches -->
         {% for tache in Todolist %}
             <li>
                 {{ tache.nom }}
+                <form action="{% url 'suppression_path' tache.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">
+                        Supprimer
+                    </button>
+                </form>
+            </li>
+        {% empty %}
+            <li>
+                <p>Youpi ! Rien à faire</p>
             </li>
         {% endfor %}
+        <!-- Fin de la liste des taches -->
     </ul>
 </body>
 </html>
