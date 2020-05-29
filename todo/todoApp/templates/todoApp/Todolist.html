@@ -12,48 +12,58 @@
 </head>
 
 <body>
-    <h1>
-        Mes tâches
-    </h1>
-    <!-- Insertion de taches -->
-    <form action="{% url 'insertion_path' %}" method="post" autocomplete="off">
-        {% csrf_token %}
-        <input type="text" name="nom">
-        <button type="submit">
-            Envoyer
-        </button>
-    </form>
-    <ul>
-        <!-- Début de la liste des taches -->
-        {% for tache in Todolist %}
-        <li>
-            {% if tache.realise %}
-            <strike> {{ tache.nom }} </strike>
-            {% else %}
-            {{ tache.nom }}
-            {% endif %}
+    <div class="container">
+        <h1>
+            Mes tâches
+        </h1>
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                <!-- Insertion de taches -->
+                <li class="list-group-item ">
+                    <form action="{% url 'insertion_path' %}" method="post" autocomplete="off">
+                        <div class="form-inline">
+                            {% csrf_token %}
+                            <input type="text" name="nom" class="form-control">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </form>
+                </li>
+                <!-- Début de la liste des taches -->
+                {% for tache in Todolist %}
+                <li class="list-group-item {% if tache.realise %} bg-success {% endif %}">
+                    <div class="form-inline">
 
+                        {{ tache.nom }}
+                            <div class="">
+                            <!-- Début realisation -->
+                            <form action="{% url 'realise_path' tache.id %}" class="text-right" method="POST">
+                                {% csrf_token %}
+                                <!-- Si la tache a été réalise alors on coche la checkbox -->
+                                <input type="checkbox" name="realise" {% if tache.realise %} checked {% endif %}>
+                            </form>
 
-            <form action="{% url 'realise_path' tache.id %}" method="POST">
-                {% csrf_token %}
-                <!-- Si la tache a été réalise alors on coche la checkbox -->
-                <input type="checkbox" name="realise" {% if tache.realise %} checked {% endif %}>
-            </form>
-
-            <form action="{% url 'suppression_path' tache.id %}" name="suppr">
-                {% csrf_token %}
-                <button type="submit">
-                    Supprimer
-                </button>
-            </form>
-        </li>
-        {% empty %}
-        <li>
-            <p>Aucune tache</p>
-        </li>
-        {% endfor %}
-        <!-- Fin de la liste des taches -->
-    </ul>
+                            <!-- Début suppression -->
+                            <form action="{% url 'suppression_path' tache.id %}" class="text-right" name="suppr">
+                                {% csrf_token %}
+                                <button type="submit" class="close" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+                <!-- Si il n'y a pas de taches -->
+                {% empty %}
+                <li class="list-group-item">
+                    <p>Aucune tache</p>
+                </li>
+                {% endfor %}
+                <!-- Fin de la liste des taches -->
+            </ul>
+        </div>
+    </div>
 
     <!-- jQuery js -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -66,6 +76,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
     </script>
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/760062a515.js" crossorigin="anonymous"></script>
 
     <script type='text/javascript'>
         $(document).ready(function () {
