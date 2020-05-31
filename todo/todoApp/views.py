@@ -4,7 +4,7 @@ from .models import Tache
 
 # Vu pour l'index
 def todoListe(request):
-    context = {'Todolist' : Tache.objects.all() }
+    context = {'Todolist' : Tache.objects.all().order_by('nom') }
     return render(request, 'todoApp/Todolist.html', context)
 
 #Vu quand on insert une tache

@@ -13,7 +13,7 @@
 
 <body>
     <div class="container">
-        <h1>
+        <h1 class="text-center p-3">
             Mes tâches
         </h1>
         <div class="card">
@@ -22,32 +22,42 @@
                 <li class="list-group-item ">
                     <form action="{% url 'insertion_path' %}" method="post" autocomplete="off">
                         <div class="form-inline">
-                            {% csrf_token %}
-                            <input type="text" name="nom" class="form-control">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-plus-circle"></i>
-                            </button>
+                            <div class="p-2 w-100 d-flex bd-highlight">
+                                {% csrf_token %}
+                                <div class="w-100 bd-highlight">
+                                    <input type="text" name="nom" maxlength="100" class="form-control w-100 bd-highlight"
+                                    required>
+                                </div>
+                                <div class="flex-shrink-1 bd-highlight">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </li>
                 <!-- Début de la liste des taches -->
                 {% for tache in Todolist %}
                 <li class="list-group-item {% if tache.realise %} bg-success {% endif %}">
-                    <div class="form-inline">
+                    <div class="row">
 
-                        {{ tache.nom }}
-                            <div class="">
-                            <!-- Début realisation -->
-                            <form action="{% url 'realise_path' tache.id %}" class="text-right" method="POST">
+                        <div class="col-11">
+                            {{ tache.nom }}
+                        </div>
+
+                        <!-- Début realisation -->
+                        <div class="col-1 row">
+                            <form action="{% url 'realise_path' tache.id %}" class="col-6" method="POST">
                                 {% csrf_token %}
                                 <!-- Si la tache a été réalise alors on coche la checkbox -->
-                                <input type="checkbox" name="realise" {% if tache.realise %} checked {% endif %}>
+                                <input type="checkbox" class="align-middle" name="realise" {% if tache.realise %} checked {% endif %}>
                             </form>
-
+                            
                             <!-- Début suppression -->
-                            <form action="{% url 'suppression_path' tache.id %}" class="text-right" name="suppr">
+                            <form action="{% url 'suppression_path' tache.id %}" class="col-6" name="suppr">
                                 {% csrf_token %}
-                                <button type="submit" class="close" aria-label="Close">
+                                <button type="submit" class="close align-middle" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </form>
