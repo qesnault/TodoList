@@ -2,6 +2,7 @@
 <html lang="fr">
 
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todolist</title>
@@ -48,14 +49,14 @@
 
                         <!-- Début realisation -->
                         <div class="col-1 row">
-                            <form action="{% url 'realise_path' tache.id %}" class="col-6" method="POST">
+                            <form action="{% url 'realise_path' tache.id %}" class="pr-4" method="POST">
                                 {% csrf_token %}
                                 <!-- Si la tache a été réalise alors on coche la checkbox -->
                                 <input type="checkbox" class="align-middle" name="realise" {% if tache.realise %} checked {% endif %}>
                             </form>
                             
                             <!-- Début suppression -->
-                            <form action="{% url 'suppression_path' tache.id %}" class="col-6" name="suppr">
+                            <form action="{% url 'suppression_path' tache.id %}" class="" name="suppr">
                                 {% csrf_token %}
                                 <button type="submit" class="close align-middle" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -89,13 +90,8 @@
     <!-- Icons -->
     <script src="https://kit.fontawesome.com/760062a515.js" crossorigin="anonymous"></script>
 
-    <script type='text/javascript'>
-        $(document).ready(function () {
-            $('input[name=realise]').change(function () {
-                $(this).closest("form").submit();
-            });
-        });
-    </script>
+    <!-- Custom js -->
+    <script src="{% static 'todoApp/static.js' %}"></script> 
 </body>
 
 </html>
