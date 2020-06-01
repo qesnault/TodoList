@@ -25,7 +25,7 @@ SECRET_KEY = 'ktbnu!yo52@8vs!%tq!ul)!(dj8am5_&pvfxhp@4qb%-^1ryv^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms',
     'todoApp'
 ]
 
@@ -68,8 +67,6 @@ TEMPLATES = [
     },
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
 WSGI_APPLICATION = 'todo.wsgi.application'
 
 
@@ -79,10 +76,11 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'TodoDB',
-        'USER':'quentin',
-        'PASSWORD':'quentin',
-        'HOST':'localhost'
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('USERNAME'),
+        'PASSWORD': os.getenv('PASSWORD'),
+        'HOST': os.getenv('HOSTNAME'),
+        'PORT': os.getenv('PORT'),
     }
 }
 

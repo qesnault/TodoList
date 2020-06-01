@@ -1,16 +1,14 @@
-FROM python:3.4
+FROM python:3.7.4
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
+ENV PYTHONUNBUFFERED 1
 
-WORKDIR /usr/src/app
-COPY requirements.txt ./
+RUN mkdir /todo
+WORKDIR /todo
+COPY requirements.txt /todo/
 
-EXPOSE 8000
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
-RUN mkdir /app
-WORKDIR /app
-COPY ./app /appy
+ENV PGDATA /etc/postgresql/11/main
+ENV LOGDIR  /etc/postgresql/11/main/postgresql.log
+RUN pip install -r requirements.txt
+
+COPY . /todo/
