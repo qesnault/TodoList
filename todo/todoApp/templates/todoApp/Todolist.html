@@ -23,13 +23,12 @@
                 <li class="list-group-item ">
                     <form action="{% url 'insertion_path' %}" method="post" autocomplete="off">
                         <div class="form-inline">
-                            <div class="p-2 w-100 d-flex bd-highlight">
+                            <div class="input-group w-100 p-2">
                                 {% csrf_token %}
-                                <div class="w-100 bd-highlight">
-                                    <input type="text" name="nom" maxlength="100" class="form-control w-100 bd-highlight"
-                                    required>
-                                </div>
-                                <div class="flex-shrink-1 bd-highlight">
+                                <input type="text" name="nom" maxlength="100" class="form-control"
+                                    onkeydown="countChar(this, 100)" placeholder="Ajouter une tâche" required>
+                                <div class="input-group-append">
+                                    <span id="charNum" class="text-secondary input-group-text"></span>
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-plus-circle"></i>
                                     </button>
@@ -40,7 +39,7 @@
                 </li>
                 <!-- Début de la liste des taches -->
                 {% for tache in Todolist %}
-                <li class="list-group-item {% if tache.realise %} bg-success {% endif %}">
+                <li id="fade" class="list-group-item {% if tache.realise %} bg-success {% endif %}">
                     <div class="row">
 
                         <div class="col-11">
@@ -52,9 +51,10 @@
                             <form action="{% url 'realise_path' tache.id %}" class="pr-4" method="POST">
                                 {% csrf_token %}
                                 <!-- Si la tache a été réalise alors on coche la checkbox -->
-                                <input type="checkbox" class="align-middle" name="realise" {% if tache.realise %} checked {% endif %}>
+                                <input type="checkbox" class="align-middle" name="realise" {% if tache.realise %}
+                                    checked {% endif %}>
                             </form>
-                            
+
                             <!-- Début suppression -->
                             <form action="{% url 'suppression_path' tache.id %}" class="" name="suppr">
                                 {% csrf_token %}
@@ -68,7 +68,7 @@
                 <!-- Si il n'y a pas de taches -->
                 {% empty %}
                 <li class="list-group-item">
-                    <p>Aucune tache</p>
+                    Aucune tache
                 </li>
                 <!-- Fin de la liste des taches -->
                 {% endfor %}
@@ -91,7 +91,8 @@
     <script src="https://kit.fontawesome.com/760062a515.js" crossorigin="anonymous"></script>
 
     <!-- Custom js -->
-    <script src="{% static 'todoApp/clickOnCheckBox.js' %}"></script> 
+    <script src="{% static 'todoApp/clickOnCheckBox.js' %}"></script>
+    <script src="{% static 'todoApp/countChar.js' %}"></script>
 </body>
 
 </html>
